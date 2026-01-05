@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Portfolio of Mohammed Shemeem - BCA Student, Web Developer, UI/UX Designer, and Startup Founder.">
     <title>Mohammed Shemeem | Immersive Portfolio</title>
-    <link rel="icon" type="image/png" href="./assets/favicon.ico">
+        <link rel="icon" type="image/png" href="./assets/favicon.ico">
 
+    
     <!-- Three.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <!-- FontAwesome -->
@@ -215,6 +216,15 @@
 
         .nav-link:hover::after {
             width: 100%;
+        }
+        
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            font-size: 1.8rem;
+            color: var(--text-main);
+            cursor: pointer;
+            z-index: 101;
         }
 
         /* --- SECTIONS --- */
@@ -511,8 +521,35 @@
                 padding: 1.5rem 2rem;
             }
             
+            .menu-toggle {
+                display: block;
+            }
+
             .nav-links {
-                display: none; /* Hide on mobile for simplicity */
+                display: none; /* Hidden by default */
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(0, 5, 0, 0.95);
+                backdrop-filter: blur(15px);
+                flex-direction: column;
+                align-items: center;
+                padding: 2rem 0;
+                border-bottom: 1px solid var(--glass-border);
+                box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            }
+
+            .nav-links.mobile-active {
+                display: flex;
+            }
+            
+            .nav-link {
+                margin: 1.2rem 0;
+                font-size: 1.4rem;
+                width: 100%;
+                text-align: center;
+                padding: 0.5rem 0;
             }
 
             .about-content {
@@ -555,6 +592,12 @@
         <div class="logo">
             <img src="./assets/shem_logo.png" alt="Shem Logo" style="height: 65px; width: auto; filter: drop-shadow(0 0 8px var(--primary-color)); transition: filter 0.3s;">
         </div>
+        
+        <!-- Hamburger Menu Button -->
+        <div class="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </div>
+
         <div class="nav-links">
             <a href="#home" class="nav-link">Home</a>
             <a href="#work" class="nav-link">Projects</a>
@@ -699,13 +742,13 @@
                 <p style="font-size: 1.5rem; color: var(--text-muted); margin-bottom: 2rem;">
                     Have a project in mind? Let's build something extraordinary together.
                 </p>
-                <a href="mailto:contact@mohdshemeemkp@gmail.com" class="cta-button">Say Hello</a>
+                <a href="mailto:contact@mohammedshemeem.com" class="cta-button">Say Hello</a>
                 
                 <div class="social-links">
-                    <a href="https://github.com/Shhemeem" class="social-btn" title="GitHub"><i class="fab fa-github"></i></a>
-                    <a href="https://www.linkedin.com/in/develeporshem/" class="social-btn" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="https://x.com/Shhemeem" class="social-btn" title="Twitter"><i class="fab fa-twitter"></i></a>
-                    <a href="https://www.instagram.com/_shhemeem__/" class="social-btn" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-btn" title="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="#" class="social-btn" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="social-btn" title="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-btn" title="Instagram"><i class="fab fa-instagram"></i></a>
                 </div>
             </div>
         </section>
@@ -732,6 +775,35 @@
                 left: `${posX}px`,
                 top: `${posY}px`
             }, { duration: 500, fill: "forwards" });
+        });
+
+        // --- MOBILE MENU LOGIC ---
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        const navItems = document.querySelectorAll('.nav-link');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('mobile-active');
+            
+            // Toggle Icon
+            const icon = menuToggle.querySelector('i');
+            if(navLinks.classList.contains('mobile-active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        // Close menu when a link is clicked
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                navLinks.classList.remove('mobile-active');
+                const icon = menuToggle.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            });
         });
 
         // --- THREE.JS SCENE SETUP ---
